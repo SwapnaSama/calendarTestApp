@@ -1,0 +1,6 @@
+.pytest_cache
+.idea/
+dist/
+calendar_app_setup.egg-info
+_pycache_/
+*.pyc
