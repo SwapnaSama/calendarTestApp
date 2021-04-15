@@ -1,0 +1,35 @@
+name: CI build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+
+    env:
+      PY_COLORS: "1"
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 1
+      matrix:
+        python-version: [3.9]
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install CalendarApp dependencies
+      run: |
+        python setup.py install
+    - name: Run pytest test_login.py
+      run: |
+        python -m pytest -v testCases/test_login.py
+    - name: Run pytest test_register.py
+      run: |
+        python -m pytest -v testCases/test_register.py
